@@ -37,6 +37,27 @@ def wordpress_install():
         print(e)
         logger.error(e)
 
+def update_config():
+    db_name = "wordpress"
+    db_user = "admin"
+    db_pass = "hellowordpress"
+    wp_dir = "/var/www//html/wordpress"
+    print("Updating configuration for wordpress ...")
+    logger.info("Updating configuration for wordpress ...")
+    try:
+        shutil.copy(os.path.join(wp_dir, 'wp-config-sample.php'), os.path.join(wp_dir, 'wp-config.php'))
+        wp_config_content = open(os.path.join(wp_dir, 'wp-config.php')).read()
+        wp_config_content = wp_config_content.replace('database_name_here', db_name)
+        wp_config_content = wp_config_content.replace('username_here', db_user)
+        wp_config_content = wp_config_content.replace('password_here', db_pass)
+        f = open(os.path.join(wp_dir, 'wp-config.php'), 'w')
+        f.write(wp_config_content)
+        f.close()
+    except Exception as e:
+        print(e)
+        logger.error(e)
 
-wordpress_install()
+
+#update_config()
+#wordpress_install()
 #download_wordpress()
