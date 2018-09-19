@@ -1,4 +1,5 @@
 # sigmoid
+Tested on Ubuntu 16.04 and 18.04 LTS 64 bit.
 
 Steps to execute program:
 1) Create a new aws instance
