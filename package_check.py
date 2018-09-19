@@ -36,11 +36,30 @@ def pip_check():
         else:
             print("Ok: pip is installed.")
             logger.info("Ok: pip is installed")
-    except exception as e:
+    except Exception as e:
         print(e)
         logger.error(e)
         sys.exit(1)
 
-pip_check()           
+def module_check():
+    modules = ['pymysql']
+    import pip
+    for module in modules:
+        try:
+            __import__(module)
+            print("Ok: {} is present".format(module))
+            logger.info("Ok: {} is present".format(module))
+        except ImportError:
+            print("Installing module {}".format(module))
+            logger.info("Installing module {}".format(module))
+            pip.main(['install', module])
+            print("Ok : {} is installed".format(module))
+            logger.info("Ok : {} is installed".format(module))
+        except Exception as e:
+            print(e)
+            logger.info(e)
 
+
+#module_check()
+#pip_check()           
 #update_system()
