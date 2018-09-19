@@ -71,12 +71,13 @@ def check_apache():
        if "not-found" in str(output):
            print("Installing apache2 ...")
            logger.info("Installing apache2 ...")
-           cmd = ['sudo', 'apt-get', 'install', 'apache2']
+           cmd = ['sudo', 'apt-get', 'install', '-y', 'apache2']
            output1, error1 = execute(cmd)
            logger.info(output1)
            if error1:
-              print(error)
-              logger.error(error)
+              print(error1)
+              logger.error(error1)
+              sys.exit(1)
            else:
               print("Ok: apache2 is installed")
               logger.info("Ok: apache2 is installed")
@@ -86,9 +87,31 @@ def check_apache():
 
     if error:
         print(error)
-        logger.info(error)
+        logger.error(error)
+        sys.exit(1)
 
-check_apache()
+def check_php():
+    cmd = ['which', 'php']
+    output, error = execute(cmd)
+    logger.info(output)
+    if output:
+        print("Ok: php is present")
+        logger.info("Ok: php is present")
+    else:
+        print("Installing php ...")
+        logger.info("Installing php ...")
+        cmd = ['sudo', 'apt-get', 'install', '-y', 'php']
+        output1, error1 = execute(cmd)
+        logger.info(output1)
+        if error1:
+            print(error1)
+            logger.error(error1)
+            sys.exit(1)
+        print("Ok: php is installed")
+        logger.info("Ok php is installed")
+
+check_php()   
+#check_apache()
 #module_check()
 #pip_check()           
 #update_system()
