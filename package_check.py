@@ -1,3 +1,4 @@
+import os
 import sys
 import subprocess
 from logger import log
@@ -45,7 +46,7 @@ def pip_check():
         sys.exit(1)
 
 def module_check():
-    modules = ['pymysql']
+    modules = ['pymysql', 'psutil']
     import pip
     for module in modules:
         try:
@@ -110,7 +111,36 @@ def check_php():
         print("Ok: php is installed")
         logger.info("Ok php is installed")
 
-check_php()   
+def check_mysql():
+    cmd = ['sudo', 'service', 'mysql', 'status']
+    output, error = execute(cmd)
+    logger.info(output)
+    if output:
+       if "not-found" in str(output):
+           print("Installing mysql-server ...")
+           logger.info("Installing mysql-server ...")
+           os.system('./set_root_pass.sh')
+           cmd = ['sudo', 'apt-get', 'install', '-y', 'mysql-server-5.7']
+           output1, error1 = execute(cmd)
+           logger.info(output1)
+           if error1:
+              print(error1)
+              logger.error(error1)
+              sys.exit(1)
+           else:
+              print("Ok: mysql-server is installed")
+              logger.info("Ok: mysql-server is installed")
+       else:
+           print("Ok: mysql-server is present")
+           logger.info("Ok mysql-server is present")
+
+    if error:
+        print(error)
+        logger.error(error)
+        sys.exit(1)
+
+check_mysql()
+#check_php()   
 #check_apache()
 #module_check()
 #pip_check()           

@@ -57,6 +57,21 @@ def update_config():
         print(e)
         logger.error(e)
 
+def create_db():
+    import pymysql
+    print("Creating databse and user for wordpress")
+    logger.info("Creating databse and user for wordpress")
+    try:
+        conn = pymysql.connect(host='localhost', user='root', password='helloroot')
+        cur = conn.cursor()
+        cur.execute("CREATE DATABASE wordpress")
+        conn.commit()
+        cur.execute("GRANT ALL PRIVILEGES ON wordpress.* TO 'admin'@'localhost' IDENTIFIED BY 'hellowordpress'")
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(e)
+        logger.error(e)
 
 #update_config()
 #wordpress_install()
