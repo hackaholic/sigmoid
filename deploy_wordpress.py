@@ -4,6 +4,7 @@ import shutil
 import requests
 import sys
 import os
+from package_check import *
 
 logger = log()
 
@@ -73,6 +74,35 @@ def create_db():
         print(e)
         logger.error(e)
 
-#update_config()
-#wordpress_install()
-#download_wordpress()
+
+def main():
+    
+    #Update system
+    update_system()
+    
+    # check for pip
+    pip_check()
+
+    #check for required python modules
+    module_check()
+
+    #check for apache installation
+    check_apache()
+
+    # check for php installation
+    check_php()
+    php_mysql()
+
+    #check for mysql-server
+    check_mysql()
+
+    # Download wordpress
+    download_wordpress()
+
+    # wordpress installation
+    wordpress_install()
+    update_config()
+    create_db()
+
+if __name__ == '__main__':
+    main()

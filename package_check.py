@@ -10,6 +10,7 @@ def execute(cmd):
     return child.communicate()
 
 def update_system():
+    print("Updating the system ...")
     logger.info("Updating the system ...")
     cmd = ['sudo', 'apt-get', 'update']
     output, error = execute(cmd)
@@ -111,12 +112,26 @@ def check_php():
         print("Ok: php is installed")
         logger.info("Ok php is installed")
 
+def php_mysql():
+    print("Installing php-mysql ...")
+    logger.info("Installing php-mysql ...")
+    cmd = ['sudo', 'apt-get', 'install', '-y', 'php-mysql']
+    output1, error1 = execute(cmd)
+    logger.info(output1)
+    if error1:
+        print(error1)
+        logger.error(error1)
+        sys.exit(1)
+    print("Ok: php-mysql is installed")
+    logger.info("Ok php-mysql is installed")
+
+
 def check_mysql():
     cmd = ['sudo', 'service', 'mysql', 'status']
     output, error = execute(cmd)
     logger.info(output)
-    if output:
-       if "not-found" in str(output):
+    if output or "mysql.service could not be found" in str(error):
+       if "not-found" or "mysql.service could not be found" in str(output):
            print("Installing mysql-server ...")
            logger.info("Installing mysql-server ...")
            os.system('./set_root_pass.sh')
@@ -134,14 +149,7 @@ def check_mysql():
            print("Ok: mysql-server is present")
            logger.info("Ok mysql-server is present")
 
-    if error:
+    else:
         print(error)
         logger.error(error)
         sys.exit(1)
-
-check_mysql()
-#check_php()   
-#check_apache()
-#module_check()
-#pip_check()           
-#update_system()
