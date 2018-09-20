@@ -9,6 +9,6 @@ Steps to execute program:
 5) Open aws instance port 80
 6) go to link aws_instance_ip/wordpress
 
-![Screenshot](https://imgur.com/7uxyWCN)
+![Screenshot](https://i.imgur.com/7uxyWCN.png)
 For any modification or advice feel free to contact me.
 
